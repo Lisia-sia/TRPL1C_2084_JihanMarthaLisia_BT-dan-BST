@@ -1,0 +1,61 @@
+class STNode<T> {
+  T nodeValue;
+  STNode<T>? left, right, parent;
+
+  STNode(this.nodeValue, [this.parent]) {
+    left = null;
+    right = null;
+  }
+}
+
+class BinarySearchTree<T extends Comparable> {
+  STNode<T>? root;
+
+  // Constructor
+  BinarySearchTree() {
+    root = null;
+  }
+
+  void add(T value) {
+    STNode<T>? t = root;
+    STNode<T>? parent;
+
+    while (t != null) {
+      parent = t;
+      if (value.compareTo(t.nodeValue) < 0) {
+        t = t.left;
+      } else {
+        t = t.right;
+      }
+    }
+
+    STNode<T> newNode = STNode(value, parent);
+    if (parent == null) {
+      root = newNode;
+    } else if (value.compareTo(parent.nodeValue) < 0) {
+      parent.left = newNode;
+    } else {
+      parent.right = newNode;
+    }
+  }
+
+  T? first() {
+    if (root == null) return null;
+    STNode<T>? current = root;
+    while (current!.left != null) {
+      current = current.left;
+    }
+    return current.nodeValue;
+  }
+}
+
+void main() {
+  BinarySearchTree<int> bst = BinarySearchTree();
+  bst.add(35);
+  bst.add(18);
+  bst.add(25);
+  bst.add(48);
+  bst.add(20);
+
+  print("Nilai terkecil di BST: ${bst.first()}");
+}
